@@ -4,3 +4,5 @@ ledger/logs/
 API.txt
 .DS_Store
 Thumbs.db
+demo_*
+ledger/demo_server.log

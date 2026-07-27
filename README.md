@@ -6,6 +6,16 @@
 
 詳細安裝步驟與使用教學請看 [`使用手冊.html`](使用手冊.html)（下載後直接用瀏覽器開啟即可）。以下是快速版本。
 
+> 覺得好用的話，麻煩點一下右上角的 ⭐ **Star**——這是讓我知道這個小工具有沒有人在用的唯一方式。
+
+## 畫面預覽
+
+| 總覽 | 支出明細 | 修改記錄與復原 |
+| --- | --- | --- |
+| ![總覽儀表板](screenshots/01-dashboard.png) | ![支出明細列表](screenshots/02-expense-list.png) | ![修改記錄與復原](screenshots/03-history-revert.png) |
+
+（圖中為示範資料，非真實工程資料）
+
 ## 快速開始
 
 1. 安裝 [Python 3](https://www.python.org/downloads/)（Windows 安裝時記得勾選 **Add python.exe to PATH**）
