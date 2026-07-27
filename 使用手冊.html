@@ -1,0 +1,471 @@
+<title>工程收支帳務系統 使用手冊</title>
+<style>
+  :root {
+    --bg: #eef2ea;
+    --paper: #f8faf6;
+    --ink: #1f2a22;
+    --ink-soft: #445142;
+    --muted: #6b7a6c;
+    --line: #c9d4c3;
+    --line-strong: #a9b8a2;
+    --accent: #a83b2c;
+    --accent-soft: #a83b2c1a;
+    --accent-ink: #6e2519;
+    --chip-bg: #e2e9dc;
+    --code-bg: #e6ece1;
+    --shadow: 0 1px 2px rgba(31,42,34,0.06), 0 8px 24px rgba(31,42,34,0.06);
+  }
+  :root[data-theme="dark"] {
+    --bg: #141a15;
+    --paper: #1b231c;
+    --ink: #e7ecdf;
+    --ink-soft: #c3cdb9;
+    --muted: #8a9a86;
+    --line: #34402f;
+    --line-strong: #46543f;
+    --accent: #e07356;
+    --accent-soft: #e073561f;
+    --accent-ink: #f3b39e;
+    --chip-bg: #263123;
+    --code-bg: #202a1e;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141a15;
+      --paper: #1b231c;
+      --ink: #e7ecdf;
+      --ink-soft: #c3cdb9;
+      --muted: #8a9a86;
+      --line: #34402f;
+      --line-strong: #46543f;
+      --accent: #e07356;
+      --accent-soft: #e073561f;
+      --accent-ink: #f3b39e;
+      --chip-bg: #263123;
+      --code-bg: #202a1e;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", "Hiragino Sans", sans-serif;
+    line-height: 1.75;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--accent-soft); }
+
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 20px 96px;
+  }
+
+  header.hero {
+    padding: 64px 0 40px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  .stamp {
+    position: absolute;
+    top: 58px;
+    right: 4px;
+    width: 74px;
+    height: 74px;
+    border: 2.5px solid var(--accent);
+    border-radius: 50%;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Noto Serif TC", "PingFang TC", serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    transform: rotate(-9deg);
+    opacity: 0.85;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+  }
+  .eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin: 0 0 14px;
+    font-family: "Cascadia Code", "SF Mono", Consolas, monospace;
+  }
+  h1.title {
+    font-family: "Noto Serif TC", "PingFang TC", serif;
+    font-size: 40px;
+    font-weight: 700;
+    margin: 0 0 12px;
+    text-wrap: balance;
+    letter-spacing: 0.01em;
+  }
+  .subtitle {
+    font-size: 17px;
+    color: var(--ink-soft);
+    max-width: 46ch;
+    margin: 0;
+  }
+
+  section { margin-top: 56px; }
+  h2.section-title {
+    font-family: "Noto Serif TC", "PingFang TC", serif;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 6px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  h2.section-title .no {
+    font-family: "Cascadia Code", "SF Mono", Consolas, monospace;
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .section-intro {
+    color: var(--ink-soft);
+    margin: 0 0 24px;
+    max-width: 60ch;
+  }
+
+  .steps { display: flex; flex-direction: column; gap: 2px; }
+  .step {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 16px;
+    padding: 18px 0;
+    border-top: 1px solid var(--line);
+  }
+  .step:last-child { border-bottom: 1px solid var(--line); }
+  .step-no {
+    font-family: "Noto Serif TC", serif;
+    font-size: 20px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    padding-top: 2px;
+  }
+  .step-body h3 {
+    margin: 0 0 6px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .step-body p { margin: 0 0 8px; color: var(--ink-soft); }
+  .step-body p:last-child { margin-bottom: 0; }
+
+  code, .kbd {
+    font-family: "Cascadia Code", "SF Mono", Consolas, monospace;
+    font-size: 0.92em;
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 0.1em 0.45em;
+  }
+  a { color: var(--accent-ink); text-decoration-color: var(--accent-soft); text-underline-offset: 3px; }
+  a:hover { text-decoration-color: currentColor; }
+
+  .panel {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px 24px;
+    box-shadow: var(--shadow);
+  }
+  .panel + .panel { margin-top: 14px; }
+  .panel h4 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .platform-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 560px) { .platform-grid { grid-template-columns: 1fr; } }
+
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    margin: 20px 0;
+  }
+  .callout p { margin: 0; color: var(--ink); }
+  .callout .label {
+    font-family: "Cascadia Code", "SF Mono", Consolas, monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--accent-ink);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .qa { border-top: 1px solid var(--line); padding: 18px 0; }
+  .qa:last-child { border-bottom: 1px solid var(--line); }
+  .qa dt { font-weight: 700; margin-bottom: 6px; }
+  .qa dd { margin: 0; color: var(--ink-soft); }
+
+  .tut-grid { display: flex; flex-direction: column; gap: 22px; }
+  .tut-item { display: grid; grid-template-columns: 130px 1fr; gap: 18px; }
+  @media (max-width: 560px) { .tut-item { grid-template-columns: 1fr; } }
+  .tut-item .tag {
+    font-family: "Cascadia Code", "SF Mono", Consolas, monospace;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    padding-top: 3px;
+  }
+  .tut-item h3 { margin: 0 0 6px; font-size: 16px; }
+  .tut-item p { margin: 0; color: var(--ink-soft); }
+
+  footer {
+    margin-top: 72px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  ul.plain { margin: 8px 0 0; padding-left: 1.1em; color: var(--ink-soft); }
+  ul.plain li { margin-bottom: 4px; }
+</style>
+
+<div class="page">
+
+  <header class="hero">
+    <p class="eyebrow">setup &amp; usage guide</p>
+    <h1 class="title">工程收支帳務系統</h1>
+    <p class="subtitle">工程／裝修收支管理 · 多人連線、即時同步、發票拍照自動辨識</p>
+    <div class="stamp">使用手冊</div>
+  </header>
+
+  <section id="intro">
+    <h2 class="section-title"><span class="no">00</span> 這是什麼</h2>
+    <p class="section-intro">
+      一個跑在自己電腦（或 NAS）上的小型記帳系統，專為工程／裝修類的收支管理設計。
+      啟動後，家人、夥伴用手機或電腦打開同一個網址，看到、修改的都是同一份資料，
+      不需要另外傳 Excel 或對版本。每筆新增、修改、刪除都留有紀錄，改錯了也能復原。
+    </p>
+  </section>
+
+  <section id="install">
+    <h2 class="section-title"><span class="no">01</span> 安裝與啟動</h2>
+    <p class="section-intro">只需要做一次，之後每次要用就直接雙擊啟動檔即可。</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-no">1</div>
+        <div class="step-body">
+          <h3>安裝 Python 3（如果電腦還沒有）</h3>
+          <p>
+            到 <a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org/downloads</a> 下載安裝。
+            <b>Windows 使用者請注意：</b>安裝畫面最下面要勾選「<span class="kbd">Add python.exe to PATH</span>」，
+            沒勾之後啟動腳本會找不到 Python。Mac 較新版本通常需要自行安裝，較舊版本可能已內建。
+          </p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-no">2</div>
+        <div class="step-body">
+          <h3>解壓縮收到的資料夾</h3>
+          <p>
+            放到桌面或「文件」之類你平常找得到、且不需要特殊權限的資料夾。
+            資料夾裡有 <code>ledger</code>（程式本體）、兩個啟動檔，之後所有記帳資料也會存在這個資料夾底下，
+            不要把 <code>ledger/data</code> 這個子資料夾刪掉或搬走。
+          </p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-no">3</div>
+        <div class="step-body">
+          <h3>雙擊啟動</h3>
+          <div class="platform-grid">
+            <div class="panel">
+              <h4>🪟 Windows</h4>
+              <p style="margin:0;color:var(--ink-soft)">雙擊 <code>啟動-Windows.bat</code></p>
+            </div>
+            <div class="panel">
+              <h4>🍎 Mac</h4>
+              <p style="margin:0;color:var(--ink-soft)">
+                雙擊 <code>啟動-Mac.command</code>。第一次可能被 Gatekeeper 擋下，
+                到「系統設定 → 隱私權與安全性」按「強制打開」即可。
+              </p>
+            </div>
+          </div>
+          <p style="margin-top:12px">
+            看到黑底視窗顯示連線網址，就是啟動成功——<b>這個視窗請不要關閉</b>，
+            關閉視窗等於把伺服器關掉，其他人就連不上了。
+          </p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-no">4</div>
+        <div class="step-body">
+          <h3>開啟網頁、建立你的管理者帳號</h3>
+          <p>
+            瀏覽器打開 <code>http://localhost:8123</code>。因為是全新安裝，
+            第一次會直接看到「建立管理者帳號」的畫面，設定好帳號密碼即可——
+            這組帳號有完整權限（刪除、匯入資料、管理其他人帳號），請自己保管好。
+          </p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-no">5</div>
+        <div class="step-body">
+          <h3>手機也能用，跟電腦共用同一份資料</h3>
+          <p>
+            手機連到<b>跟電腦同一個 Wi-Fi</b>，瀏覽器輸入
+            <code>http://電腦的區網IP:8123</code>。
+            區網 IP 怎麼查：Windows 開始選單搜尋 <code>cmd</code>，輸入 <code>ipconfig</code> 看 IPv4 位址；
+            Mac 到「系統設定 → 網路」看目前連線的 IP。兩邊看到、改到的會是同一份資料，即時同步。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ocr">
+    <h2 class="section-title"><span class="no">02</span> 選用：發票拍照自動辨識</h2>
+    <p class="section-intro">
+      這個功能需要一組 Google Gemini API 金鑰（個人用量在免費額度內完全夠用）。不設定也沒關係，
+      其他功能都正常，只是拍照不會自動帶入金額，改成手動輸入即可。
+    </p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-no">1</div>
+        <div class="step-body">
+          <p>用 Google 帳號登入 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-no">2</div>
+        <div class="step-body">
+          <p>按「Create API Key」，建立後複製那串金鑰文字。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-no">3</div>
+        <div class="step-body">
+          <p>
+            在 <code>ledger</code> 資料夾的<b>上一層</b>（跟 <code>ledger</code>、兩個啟動檔同一層）
+            新增一個純文字檔，命名為 <code>API.txt</code>，把金鑰貼進去存檔——檔案裡只放金鑰這一行文字就好。
+          </p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-no">4</div>
+        <div class="step-body">
+          <p>關掉伺服器視窗，重新雙擊啟動檔，設定就會生效。</p>
+        </div>
+      </div>
+    </div>
+    <div class="callout">
+      <span class="label">注意</span>
+      <p>金鑰是一段文字，等同密碼，不要把 <code>API.txt</code> 或整個資料夾上傳到公開的地方。</p>
+    </div>
+  </section>
+
+  <section id="usage">
+    <h2 class="section-title"><span class="no">03</span> 使用教學</h2>
+    <div class="tut-grid">
+      <div class="tut-item">
+        <div class="tag">projects</div>
+        <div>
+          <h3>建立專案</h3>
+          <p>首頁按「＋新增專案」輸入名稱即可。每個專案的資料、帳號權限、修改記錄都各自獨立，可以同時管理好幾個工程案。</p>
+        </div>
+      </div>
+      <div class="tut-item">
+        <div class="tag">bookkeeping</div>
+        <div>
+          <h3>記帳</h3>
+          <p>「支出」「收入」「保證金」分頁裡直接新增紀錄。未登入只能查看（唯讀），登入後才能新增、修改。</p>
+        </div>
+      </div>
+      <div class="tut-item">
+        <div class="tag">invoice ocr</div>
+        <div>
+          <h3>拍照上傳發票</h3>
+          <p>
+            支出表單按「拍照上傳發票」，手機會直接叫出相機。拍完自動辨識店家、日期、金額、統編，
+            確認無誤（手寫收據務必核對）後存檔。同一張發票要拆給好幾筆支出，
+            第二筆之後在表單按「選擇既有發票」就好，不必重拍。
+          </p>
+        </div>
+      </div>
+      <div class="tut-item">
+        <div class="tag">team</div>
+        <div>
+          <h3>邀請家人／夥伴一起用</h3>
+          <p>管理者登入後到「使用者管理」新增帳號，把帳號密碼給對方，請他們打開同一個網址登入即可。</p>
+        </div>
+      </div>
+      <div class="tut-item">
+        <div class="tag">audit trail</div>
+        <div>
+          <h3>修改記錄與復原</h3>
+          <p>「修改記錄」頁列出所有新增、修改、刪除，含時間、操作人、改了哪些欄位。管理者可以針對單一筆按「恢復」，改壞、改錯都救得回來。</p>
+        </div>
+      </div>
+      <div class="tut-item">
+        <div class="tag">backup</div>
+        <div>
+          <h3>備份</h3>
+          <p>定期複製整個 <code>ledger/data</code> 資料夾就是完整備份；也可以在網頁裡各專案按「匯出 JSON」，但匯出的 JSON 不含發票照片本體。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <h2 class="section-title"><span class="no">04</span> 常見問題</h2>
+    <dl>
+      <div class="qa">
+        <dt>電腦睡眠或關機後，手機打不開怎麼辦？</dt>
+        <dd>啟動伺服器的那台電腦要保持開機、且啟動視窗開著，其他裝置才連得上——這台電腦扮演的角色類似小型伺服器。如果之後想要不依賴某一台電腦常開，可以考慮改放到 NAS 或雲端主機上執行。</dd>
+      </div>
+      <div class="qa">
+        <dt>忘記管理者密碼怎麼辦？</dt>
+        <dd>目前沒有「忘記密碼」自助流程。可以直接刪除 <code>ledger/data/users.json</code> 這個檔案（其他資料不受影響），重新啟動伺服器後會回到「建立管理者帳號」畫面，重新設定一組新的。</dd>
+      </div>
+      <div class="qa">
+        <dt>想換一台電腦繼續用怎麼辦？</dt>
+        <dd>把整個資料夾（含 <code>ledger/data</code>）複製到新電腦，用同樣方式雙擊啟動即可，資料完全帶著走。</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section id="security">
+    <h2 class="section-title"><span class="no">05</span> 安全提醒</h2>
+    <div class="callout">
+      <span class="label">請注意</span>
+      <p>
+        這個系統沒有 HTTPS 加密，設計上只適合在家用或公司內網使用。
+        請不要透過路由器把 8123 連接埠對外（網際網路）開放，也不要把整個資料夾（尤其是 <code>data</code> 和 <code>API.txt</code>）
+        上傳到公開的雲端硬碟或分享連結。
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <span>工程收支帳務系統 · 使用手冊</span>
+    <span>只用 Python 3 標準函式庫，無需額外安裝套件</span>
+  </footer>
+
+</div>

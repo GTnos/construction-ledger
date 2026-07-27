@@ -1,0 +1,6 @@
+ledger/data/
+ledger/__pycache__/
+ledger/logs/
+API.txt
+.DS_Store
+Thumbs.db
